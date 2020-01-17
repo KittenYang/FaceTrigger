@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ARFaceTrigger'
-  s.version          = '0.1.5'
+  s.version          = '0.1.6'
   s.summary          = 'An easy-to-use wrapper of ARKit Face Tracking API.'
   swift_versions     = '5.0'
 
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/kittenyang@icloud.com/FaceTrigger'
+  s.homepage         = 'https://github.com/KittenYang/FaceTrigger'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'KittenYang' => 'kittenyang@icloud.com' }
