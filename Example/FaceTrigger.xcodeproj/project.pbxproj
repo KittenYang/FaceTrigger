@@ -45,7 +45,7 @@
 		B430BBBF13DA1F4C9DDB2C99 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		B64CF004920901A387C0800A /* Pods-FaceTrigger_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceTrigger_Tests.debug.xcconfig"; path = "Target Support Files/Pods-FaceTrigger_Tests/Pods-FaceTrigger_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C386DE8851BC691A578A8DAF /* Pods_FaceTrigger_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FaceTrigger_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEC50264D6DC70902D54034A /* FaceTrigger.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = FaceTrigger.podspec; path = ../FaceTrigger.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		CEC50264D6DC70902D54034A /* ARFaceTrigger.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ARFaceTrigger.podspec; path = ../ARFaceTrigger.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E9C67002FD7254506C92D60D /* Pods-FaceTrigger_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceTrigger_Tests.release.xcconfig"; path = "Target Support Files/Pods-FaceTrigger_Tests/Pods-FaceTrigger_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,7 +132,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				CEC50264D6DC70902D54034A /* FaceTrigger.podspec */,
+				CEC50264D6DC70902D54034A /* ARFaceTrigger.podspec */,
 				6EFCC59A49D27FAB3026445A /* README.md */,
 				B430BBBF13DA1F4C9DDB2C99 /* LICENSE */,
 			);
