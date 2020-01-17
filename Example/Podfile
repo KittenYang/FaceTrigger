@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'FaceTrigger_Example' do
+  pod 'FaceTrigger', :path => '../'
+
+  target 'FaceTrigger_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
