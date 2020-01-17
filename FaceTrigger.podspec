@@ -7,9 +7,10 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'FaceTrigger'
-  s.version          = '0.1.2'
+  s.name             = 'ARFaceTrigger'
+  s.version          = '0.1.3'
   s.summary          = 'An easy-to-use wrapper of ARKit Face Tracking API.'
+  swift_versions     = '5.0'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
