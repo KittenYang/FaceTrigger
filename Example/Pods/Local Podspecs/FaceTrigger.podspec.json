@@ -1,0 +1,22 @@
+{
+  "name": "FaceTrigger",
+  "version": "0.1.0",
+  "summary": "A short description of FaceTrigger.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/kittenyang@icloud.com/FaceTrigger",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "kittenyang@icloud.com": "kittenyang@icloud.com"
+  },
+  "source": {
+    "git": "https://github.com/kittenyang@icloud.com/FaceTrigger.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "FaceTrigger/Classes/**/*"
+}

@@ -1,0 +1,16 @@
+PODS:
+  - FaceTrigger (0.1.0)
+
+DEPENDENCIES:
+  - FaceTrigger (from `../`)
+
+EXTERNAL SOURCES:
+  FaceTrigger:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FaceTrigger: a08f957bd5369cb9e4a58607f2f5b893000c783f
+
+PODFILE CHECKSUM: 433e26a311da212283080d39496d384f3aa9ccaf
+
+COCOAPODS: 1.8.4
