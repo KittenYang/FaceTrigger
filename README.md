@@ -1,9 +1,9 @@
 # FaceTrigger
 
-[![CI Status](https://img.shields.io/travis/kittenyang@icloud.com/FaceTrigger.svg?style=flat)](https://travis-ci.org/kittenyang@icloud.com/FaceTrigger)
-[![Version](https://img.shields.io/cocoapods/v/FaceTrigger.svg?style=flat)](https://cocoapods.org/pods/ARFaceTrigger)
-[![License](https://img.shields.io/cocoapods/l/FaceTrigger.svg?style=flat)](https://cocoapods.org/pods/ARFaceTrigger)
-[![Platform](https://img.shields.io/cocoapods/p/FaceTrigger.svg?style=flat)](https://cocoapods.org/pods/ARFaceTrigger)
+[![CI Status](https://img.shields.io/travis/KittenYang/ARFaceTrigger.svg?style=flat)](https://travis-ci.org/KittenYang/ARFaceTrigger)
+[![Version](https://img.shields.io/cocoapods/v/ARFaceTrigger.svg?style=flat)](https://cocoapods.org/pods/ARFaceTrigger)
+[![License](https://img.shields.io/cocoapods/l/ARFaceTrigger.svg?style=flat)](https://cocoapods.org/pods/ARFaceTrigger)
+[![Platform](https://img.shields.io/cocoapods/p/ARFaceTrigger.svg?style=flat)](https://cocoapods.org/pods/ARFaceTrigger)
 
 ## Example
 
