@@ -11,6 +11,10 @@ import ARKit
 
 public enum FeatureSide:Equatable {
     case unknown
+    /// changed: true if state changed. For example: eyes opened -> blink or blink -> eyes opened
+    /// triggerd: current state. For example: triggerd == true means blink
+    /// value: current state value
+    /// blendShapes: current ARFaceAnchor.BlendShapeLocation
     case both(_ changed:Bool,_ triggerd:Bool,_ value: Float, _ blendShapes: ARFaceAnchor.BlendShapeLocation)
     case left(_ changed:Bool,_ triggerd:Bool,_ value: Float)
     case right(_ changed:Bool,_ triggerd:Bool,_ value: Float)
@@ -20,11 +24,11 @@ public enum FeatureSide:Equatable {
         case .both(_):
             return ""
         case .left(_):
-            return "左边left"
+            return "左边,left"
         case .right(_):
-            return "右边right"
+            return "右边,right"
         default:
-            return "未知"
+            return "unknown"
         }
     }
     
@@ -50,89 +54,78 @@ public enum FeatureSide:Equatable {
 public protocol FaceTriggerDelegate: ARSCNViewDelegate {
     
     func faceTrackingDidChange(isTracked: Bool)
-    //转动脖子
+    /// Face rotation(转动头部)
     func onFaceRotateWith(eulerAngles: SCNVector3)
     
     // --- Single ----
-    //鼓腮
+    /// Cheek Puff(鼓腮)
     func onCheekPuffDidChange(side: FeatureSide)
     
-    //嘟嘴
+    /// MouthPucker(嘟嘴)
     func onMouthPuckerDidChange(side: FeatureSide)
     
-    //张嘴
+    /// JawOpen(张嘴)
     func onJawOpenDidChange(side: FeatureSide)
     
-    //挑眉
+    /// BrowUp(挑眉)
     func onBrowUpDidChange(side: FeatureSide)
     
-    //吐舌头
+    /// TongueOut(吐舌头)
     func onTongueOutDidChange(side: FeatureSide)
     
     
     // --- Both ----
-    //微笑
+    /// Smile(微笑)
     func onSmileDidChange(sides: [FeatureSide])
     
-    //眨眼
+    /// Blink(眨眼)
     func onBlinkDidChange(sides: [FeatureSide])
     
-    //下巴移动
+    /// JawMove(下巴移动)
     func onJawMoveDidChange(sides: [FeatureSide])
     
-    //皱眉
+    /// BrowDown(皱眉)
     func onBrowDownDidChange(sides: [FeatureSide])
 
-    // 眯眼
+    /// Squint(眯眼)
     func onSquintDidChange(sides: [FeatureSide])
 }
 
 extension FaceTriggerDelegate {
     func faceTrackingDidChange(isTracked: Bool) {
     }
-    //转动脖子
     func onFaceRotateWith(eulerAngles: SCNVector3) {        
     }
     
     // --- Single ----
-    //鼓腮
     func onCheekPuffDidChange(side: FeatureSide) {
     }
     
-    //嘟嘴
     func onMouthPuckerDidChange(side: FeatureSide) {
     }
     
-    //张嘴
     func onJawOpenDidChange(side: FeatureSide) {
     }
     
-    //挑眉
     func onBrowUpDidChange(side: FeatureSide) {
     }
     
-    //吐舌头
     func onTongueOutDidChange(side: FeatureSide){
     }
     
     // --- Both ----
-    //微笑
     func onSmileDidChange(sides: [FeatureSide]) {
     }
     
-    //眨眼
     func onBlinkDidChange(sides: [FeatureSide]) {
     }
     
-    //下巴移动
     func onJawMoveDidChange(sides: [FeatureSide]) {
     }
     
-    //皱眉
     func onBrowDownDidChange(sides: [FeatureSide]) {
     }
 
-    // 眯眼
     func onSquintDidChange(sides: [FeatureSide]) {
     }
 }
@@ -143,9 +136,9 @@ public class FaceTrigger: NSObject {
         self.faceTracked = false
     }
     
-    var sceneView: ARSCNView?
+    public weak var sceneView: ARSCNView?
     private let sceneViewSessionOptions: ARSession.RunOptions = [.resetTracking, .removeExistingAnchors]
-    private let hostView: UIView
+    private weak var hostView: UIView?
     private weak var delegate: FaceTriggerDelegate?
     private var evaluators = [FaceTriggerEvaluatorProtocol]()
     private var faceTracked:Bool = false
@@ -188,7 +181,11 @@ public class FaceTrigger: NSObject {
     public func start() {
         
         guard FaceTrigger.isSupported else {
-            NSLog("FaceTrigger is not supported.")
+            print("FaceTrigger is not supported.")
+            return
+        }
+        
+        guard let `hostView` = hostView else {
             return
         }
         
@@ -198,13 +195,14 @@ public class FaceTrigger: NSObject {
         let configuration = ARFaceTrackingConfiguration()
         configuration.isLightEstimationEnabled = true
         
-        sceneView = ARSCNView(frame: hostView.bounds)
-        sceneView!.automaticallyUpdatesLighting = true
-        sceneView!.session.run(configuration, options: sceneViewSessionOptions)
-        sceneView!.isHidden = hidePreview
-        sceneView!.delegate = self
+        let sceneView = ARSCNView(frame: hostView.bounds)
+        sceneView.automaticallyUpdatesLighting = true
+        sceneView.session.run(configuration, options: sceneViewSessionOptions)
+        sceneView.isHidden = hidePreview
+        sceneView.delegate = self
         
-        hostView.addSubview(sceneView!)
+        hostView.addSubview(sceneView)
+        self.sceneView = sceneView
     }
     
     public func stop() {
@@ -228,14 +226,18 @@ public class FaceTrigger: NSObject {
 }
 
 extension FaceTrigger: ARSCNViewDelegate {
-    fileprivate func detectFaceNode(face: ARFaceAnchor) {
-        if face.isTracked != faceTracked {
-            DispatchQueue.main.async {
-                self.delegate?.faceTrackingDidChange(isTracked: face.isTracked)
-            }
+
+    public func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+        guard let `sceneView` = sceneView, !self.hidePreview else {
+            return nil
         }
-        faceTracked = face.isTracked
+
+        let faceMesh = ARSCNFaceGeometry(device: sceneView.device!)
+        let node = SCNNode(geometry: faceMesh)
+        node.geometry?.firstMaterial?.fillMode = .lines
+        return node
     }
+    
     public func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         guard let faceAnchor = anchor as? ARFaceAnchor, let `delegate` = delegate else {
             return
@@ -250,12 +252,9 @@ extension FaceTrigger: ARSCNViewDelegate {
         }
     }
     
-    public func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        debugPrint("FaceTrigger:Detect face the first time!")
-    }
-    
 }
 
+// MARK: private
 extension FaceTrigger {
     fileprivate func calculateEulerAngles(_ faceAnchor: ARFaceAnchor) -> SCNVector3 {
         // Based on StackOverflow answer https://stackoverflow.com/a/53434356/3599895
@@ -274,6 +273,15 @@ extension FaceTrigger {
         let roll = (rotation.z*1.5)
         let absoluteEulerAngle = SCNVector3(pitch, yaw, roll)
         return absoluteEulerAngle
+    }
+    
+    fileprivate func detectFaceNode(face: ARFaceAnchor) {
+        if face.isTracked != faceTracked {
+            DispatchQueue.main.async {
+                self.delegate?.faceTrackingDidChange(isTracked: face.isTracked)
+            }
+        }
+        faceTracked = face.isTracked
     }
 }
 
