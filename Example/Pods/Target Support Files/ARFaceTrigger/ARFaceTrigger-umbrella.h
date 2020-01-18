@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double FaceTriggerVersionNumber;
-FOUNDATION_EXPORT const unsigned char FaceTriggerVersionString[];
+FOUNDATION_EXPORT double ARFaceTriggerVersionNumber;
+FOUNDATION_EXPORT const unsigned char ARFaceTriggerVersionString[];
 

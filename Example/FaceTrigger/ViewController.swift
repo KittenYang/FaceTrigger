@@ -7,17 +7,17 @@
 //
 
 import UIKit
-import FaceTrigger
+import ARFaceTrigger
 import ARKit
 
 class ViewController: UIViewController {
 
-    var faceTrigger: FaceTrigger?
+    var faceTrigger: ARFaceTrigger?
     @IBOutlet weak var debugLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if !FaceTrigger.isSupported {
+        if !ARFaceTrigger.isSupported {
             assert(false, "当前设备不支持脸部识别")
             return
         }
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: private methods
-extension ViewController: FaceTriggerDelegate {
+extension ViewController: ARFaceTriggerDelegate {
     func faceTrackingDidChange(isTracked: Bool) {
         let message = isTracked ? "成功识别" : "失去识别"
         debugLabel.text = message
@@ -123,7 +123,7 @@ extension ViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(pause), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(unpause), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
          
-        self.faceTrigger = FaceTrigger(hostView: self.view, delegate: self)
+        self.faceTrigger = ARFaceTrigger(hostView: self.view, delegate: self)
         self.faceTrigger?.hidePreview = false
         self.faceTrigger?.start()
         

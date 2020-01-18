@@ -1,6 +1,0 @@
-framework module FaceTrigger {
-  umbrella header "FaceTrigger-umbrella.h"
-
-  export *
-  module * { export * }
-}

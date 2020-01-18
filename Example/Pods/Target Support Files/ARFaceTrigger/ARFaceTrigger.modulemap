@@ -1,0 +1,6 @@
+framework module ARFaceTrigger {
+  umbrella header "ARFaceTrigger-umbrella.h"
+
+  export *
+  module * { export * }
+}

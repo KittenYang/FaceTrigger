@@ -1,7 +1,7 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
-## FaceTrigger
+## ARFaceTrigger
 
 Copyright (c) 2020 kittenyang@icloud.com <kittenyang@icloud.com>
 

@@ -1,9 +1,8 @@
 //
-//  FaceTrigger.swift
+//  ARFaceTrigger.swift
 //  FaceTrigger
 //
-//  Created by Michael Peterson on 12/26/17.
-//  Copyright © 2017 Blinkloop. All rights reserved.
+//  Created by Qitao Yang on 2020/1/18.
 //
 
 import UIKit
@@ -51,7 +50,7 @@ public enum FeatureSide:Equatable {
     #endif
 }
 
-public protocol FaceTriggerDelegate: ARSCNViewDelegate {
+public protocol ARFaceTriggerDelegate: ARSCNViewDelegate {
     
     func faceTrackingDidChange(isTracked: Bool)
     /// Face rotation(转动头部)
@@ -91,10 +90,10 @@ public protocol FaceTriggerDelegate: ARSCNViewDelegate {
     func onSquintDidChange(sides: [FeatureSide])
 }
 
-extension FaceTriggerDelegate {
+extension ARFaceTriggerDelegate {
     func faceTrackingDidChange(isTracked: Bool) {
     }
-    func onFaceRotateWith(eulerAngles: SCNVector3) {        
+    func onFaceRotateWith(eulerAngles: SCNVector3) {
     }
     
     // --- Single ----
@@ -130,7 +129,7 @@ extension FaceTriggerDelegate {
     }
 }
 
-public class FaceTrigger: NSObject {
+public class ARFaceTrigger: NSObject {
     
     func resetFaceToUnTracked() {
         self.faceTracked = false
@@ -139,8 +138,8 @@ public class FaceTrigger: NSObject {
     public weak var sceneView: ARSCNView?
     private let sceneViewSessionOptions: ARSession.RunOptions = [.resetTracking, .removeExistingAnchors]
     private weak var hostView: UIView?
-    private weak var delegate: FaceTriggerDelegate?
-    private var evaluators = [FaceTriggerEvaluatorProtocol]()
+    private weak var delegate: ARFaceTriggerDelegate?
+    private var evaluators = [ARFaceTriggerEvaluatorProtocol]()
     private var faceTracked:Bool = false
     
     public var smileThreshold: Float = 0.4
@@ -154,7 +153,7 @@ public class FaceTrigger: NSObject {
     
     public var hidePreview: Bool = false
     
-    public init(hostView: UIView, delegate: FaceTriggerDelegate) {
+    public init(hostView: UIView, delegate: ARFaceTriggerDelegate) {
 
         self.hostView = hostView
         self.delegate = delegate
@@ -180,7 +179,7 @@ public class FaceTrigger: NSObject {
     
     public func start() {
         
-        guard FaceTrigger.isSupported else {
+        guard ARFaceTrigger.isSupported else {
             print("FaceTrigger is not supported.")
             return
         }
@@ -225,7 +224,7 @@ public class FaceTrigger: NSObject {
     
 }
 
-extension FaceTrigger: ARSCNViewDelegate {
+extension ARFaceTrigger: ARSCNViewDelegate {
 
     public func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
         guard let `sceneView` = sceneView, !self.hidePreview else {
@@ -255,7 +254,7 @@ extension FaceTrigger: ARSCNViewDelegate {
 }
 
 // MARK: private
-extension FaceTrigger {
+extension ARFaceTrigger {
     fileprivate func calculateEulerAngles(_ faceAnchor: ARFaceAnchor) -> SCNVector3 {
         // Based on StackOverflow answer https://stackoverflow.com/a/53434356/3599895
         let projectionMatrix = self.sceneView?.session.currentFrame?.camera.projectionMatrix(for: .portrait, viewportSize: self.sceneView!.bounds.size, zNear: 0.001, zFar: 1000)
@@ -284,6 +283,7 @@ extension FaceTrigger {
         faceTracked = face.isTracked
     }
 }
+
 
 
 

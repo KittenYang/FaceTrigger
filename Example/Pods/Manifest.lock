@@ -1,16 +1,16 @@
 PODS:
-  - FaceTrigger (0.1.0)
+  - ARFaceTrigger (0.1.6)
 
 DEPENDENCIES:
-  - FaceTrigger (from `../`)
+  - ARFaceTrigger (from `../`)
 
 EXTERNAL SOURCES:
-  FaceTrigger:
+  ARFaceTrigger:
     :path: "../"
 
 SPEC CHECKSUMS:
-  FaceTrigger: a08f957bd5369cb9e4a58607f2f5b893000c783f
+  ARFaceTrigger: 4e9cd384376e1b78bd326f8829eb0ebee40030df
 
-PODFILE CHECKSUM: 433e26a311da212283080d39496d384f3aa9ccaf
+PODFILE CHECKSUM: 7bd8ca43769825d14a6cd5b50ba4ed10db6d3aa2
 
 COCOAPODS: 1.8.4

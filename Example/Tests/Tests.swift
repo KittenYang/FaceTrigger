@@ -1,5 +1,5 @@
 import XCTest
-import FaceTrigger
+import ARFaceTrigger
 
 class Tests: XCTestCase {
     

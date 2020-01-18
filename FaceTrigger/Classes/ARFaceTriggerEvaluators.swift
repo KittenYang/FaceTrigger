@@ -1,22 +1,21 @@
 //
-//  FaceTriggerEvaluators.swift
+//  ARFaceTriggerEvaluators.swift
 //  FaceTrigger
 //
-//  Created by Mike Peterson on 12/27/17.
-//  Copyright © 2017 Blinkloop. All rights reserved.
+//  Created by Qitao Yang on 2020/1/18.
 //
 
 import ARKit
 
-protocol FaceTriggerEvaluatorProtocol {
+protocol ARFaceTriggerEvaluatorProtocol {
     var threshold: Float { get set }
     var keys: [ARFaceAnchor.BlendShapeLocation] { get set }
     
     init(threshold: Float)
-    func evaluate(_ blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber], forDelegate delegate: FaceTriggerDelegate)
+    func evaluate(_ blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber], forDelegate delegate: ARFaceTriggerDelegate)
 }
 
-class SingleEvaluator: FaceTriggerEvaluatorProtocol {
+class SingleEvaluator: ARFaceTriggerEvaluatorProtocol {
     var threshold: Float = 0.0
     var keys: [ARFaceAnchor.BlendShapeLocation] = []
 
@@ -26,10 +25,10 @@ class SingleEvaluator: FaceTriggerEvaluatorProtocol {
         self.threshold = threshold
     }
     
-    func onSingle(_ delegate: FaceTriggerDelegate, _ side: FeatureSide) {
+    func onSingle(_ delegate: ARFaceTriggerDelegate, _ side: FeatureSide) {
     }
     
-    func evaluate(_ blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber], forDelegate delegate: FaceTriggerDelegate) {
+    func evaluate(_ blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber], forDelegate delegate: ARFaceTriggerDelegate) {
         if let singleKey = keys.first, let browInnerUp = blendShapes[singleKey] {
             let newValue = browInnerUp.floatValue >= threshold
             let side = FeatureSide.both(newValue != self.oldValue, newValue, browInnerUp.floatValue, singleKey)
@@ -48,7 +47,7 @@ class BrowUpEvaluator: SingleEvaluator {
         super.init(threshold: threshold)
         self.keys = [.browInnerUp]
     }
-    override func onSingle(_ delegate: FaceTriggerDelegate, _ side: FeatureSide) {
+    override func onSingle(_ delegate: ARFaceTriggerDelegate, _ side: FeatureSide) {
         delegate.onBrowUpDidChange(side: side)
     }
 }
@@ -60,7 +59,7 @@ class CheekPuffEvaluator: SingleEvaluator {
         super.init(threshold: threshold)
         self.keys = [.cheekPuff]
     }
-    override func onSingle(_ delegate: FaceTriggerDelegate, _ side: FeatureSide) {
+    override func onSingle(_ delegate: ARFaceTriggerDelegate, _ side: FeatureSide) {
         delegate.onCheekPuffDidChange(side: side)
     }
     
@@ -72,7 +71,7 @@ class MouthPuckerEvaluator: SingleEvaluator {
         super.init(threshold: threshold)
         self.keys = [.mouthPucker]
     }
-    override func onSingle(_ delegate: FaceTriggerDelegate, _ side: FeatureSide) {
+    override func onSingle(_ delegate: ARFaceTriggerDelegate, _ side: FeatureSide) {
         delegate.onMouthPuckerDidChange(side: side)
     }
 }
@@ -83,7 +82,7 @@ class JawOpenEvaluator: SingleEvaluator {
         super.init(threshold: threshold)
         self.keys = [.jawOpen]
     }
-    override func onSingle(_ delegate: FaceTriggerDelegate, _ side: FeatureSide) {
+    override func onSingle(_ delegate: ARFaceTriggerDelegate, _ side: FeatureSide) {
         delegate.onJawOpenDidChange(side: side)
     }
 }
@@ -95,7 +94,7 @@ class TongueOutEvaluator: SingleEvaluator {
         super.init(threshold: threshold)
         self.keys = [.tongueOut]
     }
-    override func onSingle(_ delegate: FaceTriggerDelegate, _ side: FeatureSide) {
+    override func onSingle(_ delegate: ARFaceTriggerDelegate, _ side: FeatureSide) {
         delegate.onTongueOutDidChange(side: side)
     }
 }
@@ -104,7 +103,7 @@ class TongueOutEvaluator: SingleEvaluator {
 // ------------------------------------------------------------------------
 
 // MARK: ---- Both -----
-class BothEvaluator: FaceTriggerEvaluatorProtocol {
+class BothEvaluator: ARFaceTriggerEvaluatorProtocol {
     var threshold: Float = 0.0
     var keys: [ARFaceAnchor.BlendShapeLocation] = []
 
@@ -116,10 +115,10 @@ class BothEvaluator: FaceTriggerEvaluatorProtocol {
         self.threshold = threshold
     }
     
-    func onBoth(_ delegate: FaceTriggerDelegate, _ sides: [FeatureSide]) {
+    func onBoth(_ delegate: ARFaceTriggerDelegate, _ sides: [FeatureSide]) {
     }
     
-    func evaluate(_ blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber], forDelegate delegate: FaceTriggerDelegate) {
+    func evaluate(_ blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber], forDelegate delegate: ARFaceTriggerDelegate) {
         // note that "left" and "right" blend shapes are mirrored so they are opposite from what a user would consider "left" or "right"
         guard let leftKey = keys.first, let rightKey = keys.last else {
             return
@@ -165,7 +164,7 @@ class SmileEvaluator: BothEvaluator {
         super.init(threshold: threshold)
         self.keys = [.mouthSmileLeft,.mouthSmileRight]
     }
-    override func onBoth(_ delegate: FaceTriggerDelegate, _ sides: [FeatureSide]) {
+    override func onBoth(_ delegate: ARFaceTriggerDelegate, _ sides: [FeatureSide]) {
         delegate.onSmileDidChange(sides: sides)
     }
 }
@@ -177,7 +176,7 @@ class BlinkEvaluator: BothEvaluator {
         super.init(threshold: threshold)
         self.keys = [.eyeBlinkLeft,.eyeBlinkRight]
     }
-    override func onBoth(_ delegate: FaceTriggerDelegate, _ sides: [FeatureSide]) {
+    override func onBoth(_ delegate: ARFaceTriggerDelegate, _ sides: [FeatureSide]) {
         delegate.onBlinkDidChange(sides: sides)
     }
 }
@@ -188,7 +187,7 @@ class BrowDownEvaluator: BothEvaluator {
         super.init(threshold: threshold)
         self.keys = [.browDownLeft,.browDownRight]
     }
-    override func onBoth(_ delegate: FaceTriggerDelegate, _ sides: [FeatureSide]) {
+    override func onBoth(_ delegate: ARFaceTriggerDelegate, _ sides: [FeatureSide]) {
         delegate.onBrowDownDidChange(sides: sides)
     }
 }
@@ -199,7 +198,7 @@ class SquintEvaluator: BothEvaluator {
         super.init(threshold: threshold)
         self.keys = [.eyeSquintLeft,.eyeSquintRight]
     }
-    override func onBoth(_ delegate: FaceTriggerDelegate, _ sides: [FeatureSide]) {
+    override func onBoth(_ delegate: ARFaceTriggerDelegate, _ sides: [FeatureSide]) {
         delegate.onSquintDidChange(sides: sides)
     }
 }
@@ -212,10 +211,11 @@ class JawMoveEvaluator: BothEvaluator {
         super.init(threshold: threshold)
         self.keys = [.jawLeft,.jawRight]
     }
-    override func onBoth(_ delegate: FaceTriggerDelegate, _ sides: [FeatureSide]) {
+    override func onBoth(_ delegate: ARFaceTriggerDelegate, _ sides: [FeatureSide]) {
         delegate.onJawMoveDidChange(sides: sides)
     }
 }
+
 
 
 

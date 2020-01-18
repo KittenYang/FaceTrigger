@@ -1,7 +1,7 @@
 use_frameworks!
 
 target 'FaceTrigger_Example' do
-  pod 'FaceTrigger', :path => '../'
+  pod 'ARFaceTrigger', :path => '../'
 
   target 'FaceTrigger_Tests' do
     inherit! :search_paths

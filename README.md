@@ -10,7 +10,7 @@
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ```swift
-self.faceTrigger = FaceTrigger(hostView: self.view, delegate: self)
+self.faceTrigger = ARFaceTrigger(hostView: self.view, delegate: self)
 self.faceTrigger?.hidePreview = false
 self.faceTrigger?.start()
 ````
