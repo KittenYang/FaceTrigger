@@ -230,7 +230,7 @@ extension ARFaceTrigger: ARSCNViewDelegate {
         guard let `sceneView` = sceneView, !self.hidePreview else {
             return nil
         }
-
+        
         let faceMesh = ARSCNFaceGeometry(device: sceneView.device!)
         let node = SCNNode(geometry: faceMesh)
         node.geometry?.firstMaterial?.fillMode = .lines
@@ -240,6 +240,9 @@ extension ARFaceTrigger: ARSCNViewDelegate {
     public func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         guard let faceAnchor = anchor as? ARFaceAnchor, let `delegate` = delegate else {
             return
+        }
+        if let faceGeometry = node.geometry as? ARSCNFaceGeometry {
+            faceGeometry.update(from: faceAnchor.geometry)
         }
         detectFaceNode(face:faceAnchor)
         DispatchQueue.main.async {
